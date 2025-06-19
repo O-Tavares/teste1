@@ -1,3 +1,12 @@
+let keys = {};
+
+document.addEventListener("keydown", (e) => {
+    keys[e.key.toLowerCase()] = true;
+});
+
+document.addEventListener("keyup", (e) => {
+    keys[e.key.toLowerCase()] = false;
+});
 // Get the canvas and its 2D rendering context
 const canvas = document.getElementById('pongCanvas');
 const ctx = canvas.getContext('2d');
@@ -9,11 +18,12 @@ const paddleHeight = 100;
 // Player paddle
 const player = {
     x: 0,
-    y: canvas.height / 2 - paddleHeight / 2,
     width: paddleWidth,
     height: paddleHeight,
     score: 0
 };
+let playerY = canvas.height / 2 - player.height / 2;
+
 
 // AI (Computer) paddle
 const ai = {
@@ -67,12 +77,13 @@ canvas.addEventListener('mousemove', movePaddle);
 
 function movePaddle(evt) {
     let rect = canvas.getBoundingClientRect();
-    player.y = evt.clientY - rect.top - player.height / 2;
+    playerY = evt.clientY - rect.top - player.height / 2;
 
     // Clamp to canvas
-    if (player.y < 0) player.y = 0;
-    if (player.y + player.height > canvas.height) player.y = canvas.height - player.height;
+    if (playerY < 0) playerY = 0;
+    if (playerY + player.height > canvas.height) playerY = canvas.height - player.height;
 }
+
 
 // Collision detection
 function collision(b, p) {
@@ -132,6 +143,19 @@ function update() {
         player.score++;
         resetBall();
     }
+    const moveSpeed = 7;
+
+    if (keys["w"]) {
+        playerY -= moveSpeed;
+    }
+    if (keys["s"]) {
+        playerY += moveSpeed;
+    }
+
+// Clamp to canvas bounds
+if (playerY < 0) playerY = 0;
+if (playerY + player.height > canvas.height) playerY = canvas.height - player.height;
+
 }
 
 // Render game
