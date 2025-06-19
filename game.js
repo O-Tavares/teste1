@@ -110,6 +110,12 @@ function resetBall() {
 
 // Update game objects
 function update() {
+       if (keys["w"]) {
+        playerY -= moveSpeed;
+    }
+    if (keys["s"]) {
+        playerY += moveSpeed;
+    }
     ball.x += ball.speedX;
     ball.y += ball.speedY;
 
@@ -145,12 +151,6 @@ function update() {
     }
     const moveSpeed = 7;
 
-    if (keys["w"]) {
-        playerY -= moveSpeed;
-    }
-    if (keys["s"]) {
-        playerY += moveSpeed;
-    }
 
 // Clamp to canvas bounds
 if (playerY < 0) playerY = 0;
