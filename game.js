@@ -110,7 +110,7 @@ function resetBall() {
 
 // Update game objects
 function update() {
-       if (keys["w"]) {
+    if (keys["w"]) {
         playerY -= moveSpeed;
     }
     if (keys["s"]) {
